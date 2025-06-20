@@ -75,7 +75,7 @@ bookRoutes.get("/:bookId", async (req: Request, res: Response) => {
   }
 });
 
-bookRoutes.patch("/:bookId", async (req: Request, res: Response) => {
+bookRoutes.put("/:bookId", async (req: Request, res: Response) => {
   try {
     const bookId = req.params.bookId;
     const updatedBook = req.body;
@@ -91,7 +91,7 @@ bookRoutes.patch("/:bookId", async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(400).json({
-      message: "Can't Update this book",
+      message: "Validation failed",
       success: false,
       error,
     });
@@ -110,7 +110,7 @@ bookRoutes.delete("/:bookId", async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(400).json({
-      message: "Can't Delete this book",
+      message: "Validation failed",
       success: false,
       error,
     });
