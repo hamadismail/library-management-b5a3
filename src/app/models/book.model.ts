@@ -1,5 +1,5 @@
-import { model, Schema } from "mongoose";
-import { IBook } from "../interfaces/book.interface";
+import { model, Schema, Types } from "mongoose";
+import { IBook, UserStaticMethod } from "../interfaces/book.interface";
 
 const bookSchema = new Schema<IBook>(
   {
@@ -32,4 +32,17 @@ const bookSchema = new Schema<IBook>(
   }
 );
 
-export const Book = model("Book", bookSchema);
+bookSchema.static(
+  "updateAvailability",
+  async function (bookId: Types.ObjectId) {
+    const book = await this.findById(bookId);
+    if (book) {
+      book.available = book.copies > 0;
+      await book.save();
+    } else {
+      console.warn(`Book with ID ${bookId} not found for availability update.`);
+    }
+  }
+);
+
+export const Book = model<IBook, UserStaticMethod>("Book", bookSchema);
