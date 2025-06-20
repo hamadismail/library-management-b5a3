@@ -47,6 +47,7 @@ bookSchema.static(
 
 bookSchema.post("findOneAndUpdate", async function (doc, next) {
   doc.available = doc.copies > 0;
+  await doc.save();
   next();
 });
 
