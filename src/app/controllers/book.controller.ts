@@ -74,3 +74,26 @@ bookRoutes.get("/:bookId", async (req: Request, res: Response) => {
     });
   }
 });
+
+bookRoutes.patch("/:bookId", async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params.bookId;
+    const updatedBook = req.body;
+    const data = await Book.findByIdAndUpdate(bookId, updatedBook, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: "Book updated successfully",
+      data,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Can't Update this book",
+      success: false,
+      error,
+    });
+  }
+});
