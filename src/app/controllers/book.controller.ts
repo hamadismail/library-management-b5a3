@@ -55,3 +55,22 @@ bookRoutes.get("/", async (req: Request, res: Response) => {
     });
   }
 });
+
+bookRoutes.get("/:bookId", async (req: Request, res: Response) => {
+  try {
+    const bookId = req.params.bookId;
+    const data = await Book.findById(bookId);
+
+    res.status(201).json({
+      success: true,
+      message: "Book retrieved successfully",
+      data,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "Validation failed",
+      success: false,
+      error,
+    });
+  }
+});
