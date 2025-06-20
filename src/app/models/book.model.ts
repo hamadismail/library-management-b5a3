@@ -45,4 +45,9 @@ bookSchema.static(
   }
 );
 
+bookSchema.post("findOneAndUpdate", async function (doc, next) {
+  doc.available = doc.copies > 0;
+  next();
+});
+
 export const Book = model<IBook, UserStaticMethod>("Book", bookSchema);
